@@ -260,3 +260,8 @@ def concat(x: AnyStr, y: AnyStr) -> AnyStr:
 3. others?
 
 ---
+## references
+
+https://github.com/SerafinSahary/PythonCodingStandards
+https://www.pythoncheatsheet.org/
+https://www.jetbrains.com/pycharm/
