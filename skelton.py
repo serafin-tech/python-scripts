@@ -7,6 +7,19 @@ skelton script to speed-up development
 from pprint import pprint
 import argparse
 import csv
+import json
+
+
+def json2dict(fname: str):
+    """
+    function to serialize json into dictionary
+    """
+    try:
+        with open(fname, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(e)
+        return {}
 
 
 def write_csv(fname: str, content: list):
