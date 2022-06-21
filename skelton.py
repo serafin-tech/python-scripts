@@ -10,6 +10,11 @@ import csv
 import json
 
 
+def get_file_content(fname):
+    with open(fname, mode='r', encoding='utf-8') as file:
+        return [line.rstrip() for line in file.readlines()]
+
+
 def json2dict(fname: str):
     """
     function to serialize json into dictionary
