@@ -41,45 +41,21 @@ result = var1 \
          + var3
 ```
 3. blank lines
-    1. surround top-level function and class definitions with two blank lines
-    2. method definitions inside a class are surrounded by a single blank line
+    + surround top-level function and class definitions with two blank lines
+    + method definitions inside a class are surrounded by a single blank line
+4. comments & docstrings
 
----
-## [PEP-8](https://peps.python.org/pep-0008/)
-
-4. import order
-    1. standard library imports
-    2. related third party imports
-    3. local application/library specific imports
-
----
-## [PEP-8](https://peps.python.org/pep-0008/)
-
-5. brackets, dots & commas
-```python
-spam(ham[1], {eggs: 2})
-foo = (0,)
-if x == 4: print(x, y); x, y = y, x
-dct['key'] = lst[index]
-def munge(input: AnyStr): ...
-def munge() -> PosInt: ...
-```
----
-## [PEP-8](https://peps.python.org/pep-0008/)
-
-6. comments & docstrings
 ---
 ## [PEP-8](https://peps.python.org/pep-0008/)
 
 ### [Naming Conventions](https://peps.python.org/pep-0008/#prescriptive-naming-conventions)
 
-1. b (single lowercase letter)
-2. B (single uppercase letter)
-3. lowercase
-4. lower_case_with_underscores - functions, methods
-5. UPPERCASE - constants
-6. UPPER_CASE_WITH_UNDERSCORES - constants
-7. CapitalizedWords (or CapWords, or CamelCase) - classes, TypeVariables
+1. lowercase
+2. lower_case_with_underscores (Snake case) - functions, methods
+3. UPPERCASE - constants
+4. UPPER_CASE_WITH_UNDERSCORES - constants
+5. CapitalizedWords (or CapWords, or CamelCase) - classes, TypeVariables
+
 ---
 ## logging
 
@@ -144,9 +120,10 @@ format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
 2. FileHandler instances send messages to disk files.
 3. BaseRotatingHandler is the base class for handlers that rotate log files at a certain point. Base class for RotatingFileHandler or TimedRotatingFileHandler.
 4. SocketHandler/DatagramHandler instances send messages to TCP/IP sockets or UDP.
-6. SMTPHandler instances send messages to a designated email address.
-7. NTEventLogHandler instances send messages to a Windows NT/2000/XP event log.
-8. HTTPHandler instances send messages to an HTTP server using either GET or POST semantics.
+5. SMTPHandler instances send messages to a designated email address.
+6. NTEventLogHandler instances send messages to a Windows NT/2000/XP event log.
+7. HTTPHandler instances send messages to an HTTP server using either GET or POST semantics.
+
 ---
 ## commandline arguments
 
@@ -160,7 +137,7 @@ if __name__ == "__main__":
 ```python
 import argparse
 
-parser = argparse.ArtumentParser()
+parser = argparse.ArgumentParser()
 parser.add_argument('param1')
 parser.add_argument('param2')
 
@@ -262,6 +239,6 @@ def concat(x: AnyStr, y: AnyStr) -> AnyStr:
 ---
 ## references
 
-https://github.com/SerafinSahary/PythonCodingStandards
+https://serafin.tech/PythonCodingStandards
 https://www.pythoncheatsheet.org/
 https://www.jetbrains.com/pycharm/
