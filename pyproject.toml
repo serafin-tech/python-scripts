@@ -1,3 +1,33 @@
 [build-system]
+requires = ["setuptools>=64.0",
+            "setuptools-scm>=8.0"]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools", "wheel"]
+
+[tool.setuptools_scm]
+version_file = "cliapp/_version.py"
+
+[tool.setuptools]
+packages = ["cliapp", "simple"]
+py-modules = ["__init__"]
+
+[project]
+name = "cliapp"
+dynamic = ["version"]
+authors = [
+  { name="Jaroslaw Wencel", email="jaroslaw@wencel.org" },
+]
+maintainers = [
+  { name="Jaroslaw Wencel", email="jaroslaw@wencel.org" },
+]
+description = "Placeholder"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://serafin.tech/PythonCodingStandards"
+Issues = "https://serafin.tech/PythonCodingStandards/issues"
