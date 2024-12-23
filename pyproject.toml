@@ -29,5 +29,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://serafin.tech/PythonCodingStandards"
-Issues = "https://serafin.tech/PythonCodingStandards/issues"
+Homepage = "https://serafin.tech/python-scripts"
+Issues = "https://serafin.tech/python-scripts/issues"
+
+[project.scripts]
+cliapp = "cliapp:cliapp.main"
