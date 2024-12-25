@@ -8,7 +8,7 @@ import argparse
 import csv
 import logging
 
-from openpyxl import Workbook
+from openpyxl import Workbook # pylint: disable=import-error
 
 
 def csv_reader(input_file_name: str) -> list:

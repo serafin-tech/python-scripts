@@ -5,7 +5,7 @@ import argparse
 import logging
 from typing import List
 
-from ._version import __version__
+from ._version import __version__ # pylint: disable=import-error
 
 
 def cli_argument_parser(argument_list: List[str] | None) -> argparse.Namespace:
