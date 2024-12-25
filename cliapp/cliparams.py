@@ -1,3 +1,6 @@
+"""
+Code for CLI argument parsing/processing
+"""
 import argparse
 import logging
 from typing import List
