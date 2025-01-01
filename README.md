@@ -14,6 +14,8 @@ Package defined in `pyproject.toml` file.
 `cliapp-cmd.py` - script for running the CLI application in PyCharm, this is to mock how the application 
 is being run while installed as package.
 
-## `simple_scripts` - one-file scritps for various tasks
+## `simple_scripts` - one-file scripts for various tasks
 
 Written either for some specific tasks or for being source of code snippets.
+
+Main assumption - those scripts are using standard library only.
