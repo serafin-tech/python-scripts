@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=missing-function-docstring
 """
-Script for processing UptimeRobot probe addresses.
+get and process UptimeRobot probe addresses to import them to router.
 """
 import argparse
 import ipaddress

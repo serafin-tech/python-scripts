@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=missing-function-docstring
 """
-Script for generating a JSON file with Google API IP addresses.
+generate JSON file with Google API IP addresses.
 """
 import argparse
 import ipaddress

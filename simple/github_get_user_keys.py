@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=missing-function-docstring
 """
-Script for getting GitHub user ssh keys and generating Mikrotik commands for adding them to the router.
+get GitHub user ssh-keys and generate Mikrotik commands for adding them to the router.
 """
 import argparse
 import json

@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# pylint: disable=missing-function-docstring
 """
 skelton script to speed-up development
 """
@@ -24,21 +26,11 @@ CliParams = namedtuple('CliParams', [item['name'] for item in CLI_PARAMS])
 
 
 def get_file_content(file_name):
-    """
-    Reads text file content and returns list containing all lines from the file
-    :param file_name:
-    :return:
-    """
     with open(file_name, mode='r', encoding='utf-8') as file:
         return [line.rstrip() for line in file.readlines()]
 
 
 def json2dict(file_name: str) -> Dict:
-    """
-    function to serialize json into dictionary
-    :param file_name:
-    :return deserialized dictionary:
-    """
     try:
         with open(file_name, 'r', encoding='utf-8') as file:
             return json.load(file)
@@ -51,9 +43,6 @@ def json2dict(file_name: str) -> Dict:
 
 
 def write_csv(file_name: str, content: list):
-    """
-    function to write list of lists as CSV file
-    """
     with open(file_name, 'w', encoding='utf-8', newline='') as file:
         writer = csv.writer(file)
         writer.writerows(content)
@@ -61,7 +50,9 @@ def write_csv(file_name: str, content: list):
 
 def args_parser(parameters_spec: List[Dict]) -> CliParams:
     """
-    argument parser, returns arguments as a tupple
+    CLI argument parser
+    :param parameters_spec: - list of dictionaries with 'name' and 'help' keys to define parser
+    :return: CliParams named tuple with parsed arguments
     """
     parser = argparse.ArgumentParser()
 
@@ -84,12 +75,6 @@ def args_parser(parameters_spec: List[Dict]) -> CliParams:
 
 
 def main(input_file: str, output_file: str):
-    """
-    main function of the script
-    :param input_file:
-    :param output_file:
-    :return:
-    """
     with open(input_file, 'r', encoding='utf-8') as file:
         for line in file:
             pprint(line)

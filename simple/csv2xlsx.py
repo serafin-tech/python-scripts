@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # pylint: disable=missing-function-docstring
 """
-reading multiple CSV files and combining them into a single Excel file
+read multiple CSV files and combine them into a single Excel file
 """
 
 import argparse
