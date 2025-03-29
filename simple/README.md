@@ -10,6 +10,8 @@ Scripts:
 2. [`gcp_get_api_addresses.py`](gcp_get_api_addresses.py) - get and process Google Cloud Platform API 
 addresses to import them to router
 3. [`github_get_user_keys.py`](github_get_user_keys.py) - get and process GitHub user keys to import them to router
-4. [`skelton.py`](skelton.py) - skelton script to speed-up development
-5. [`uptimerobot_get_probe_addresses.py`](uptimerobot_get_probe_addresses.py) - get and process UptimeRobot probe 
+4. [`log-loader.py`](log-loader.py) - provides functionality to forward log entries from a specified log file
+to a syslog server
+5. [`skelton.py`](skelton.py) - skelton script to speed-up development
+6. [`uptimerobot_get_probe_addresses.py`](uptimerobot_get_probe_addresses.py) - get and process UptimeRobot probe 
 addresses to import them to router
