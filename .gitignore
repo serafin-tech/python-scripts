@@ -63,9 +63,6 @@ ENV/
 env.bak/
 venv.bak/
 
-# mkdocs documentation
-/site
-
 # pytype static type analyzer
 .pytype/
 
@@ -77,5 +74,3 @@ venv.bak/
 .idea/
 
 **/_version.py
-**/*.rsc
-**/*.txt
