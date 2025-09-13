@@ -74,3 +74,4 @@ venv.bak/
 .idea/
 
 **/_version.py
+/TODO.md
