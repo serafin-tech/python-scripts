@@ -2,6 +2,9 @@
 # pylint: disable=missing-function-docstring
 """
 script to convert csv to Markdown table
+
+required modules:
+- tabulate~=0.9
 """
 
 import argparse
