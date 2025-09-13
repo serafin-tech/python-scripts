@@ -18,6 +18,7 @@ def csv_reader(input_file_name: str) -> List[List[str]]:
     if input_file_name == '-':
         csv_file = sys.stdin
     else:
+        # pylint: disable=consider-using-with
         csv_file = open(input_file_name, 'r', encoding='utf-8', newline='')
     try:
         reader = csv.reader(csv_file)
@@ -31,6 +32,7 @@ def write_markdown_table(data: List[List[str]], output_file_name: str):
     if output_file_name == '-':
         output_file = sys.stdout
     else:
+        # pylint: disable=consider-using-with
         output_file = open(output_file_name, 'w', encoding='utf-8')
     try:
         markdown_table = tabulate(data, headers="firstrow", tablefmt="github")
