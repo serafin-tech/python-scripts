@@ -2,3 +2,6 @@ openpyxl~=3.1
 pylint~=3.3
 tqdm~=4.67
 tabulate~=0.9
+beautifulsoup4~=4.13.5
+httpx~=0.28.1
+validators~=0.35.0
