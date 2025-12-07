@@ -1,0 +1,4 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+*.py diff=python
+*.sh text diff=bash eol=lf
