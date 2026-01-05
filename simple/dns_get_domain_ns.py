@@ -27,9 +27,14 @@ def args_parser() -> argparse.Namespace:
                         default=False,
                         help='talkative mode')
 
-    parser.add_argument('domain',
-                        type=str,
-                        help='Domain name to get NS records')
+    group = parser.add_mutually_exclusive_group(required=True)
+
+    group.add_argument('-d', '--domain',
+                       type=str,
+                       help='Domain name to get NS records')
+    group.add_argument('-f', '--file',
+                       type=str,
+                       help='Path to file with domains (one per line)')
 
     return parser.parse_args()
 
@@ -41,23 +46,34 @@ def logger_setup(cli_params: argparse.Namespace) -> None:
     logging.debug("CLI arguments: %s", pformat(cli_params))
 
 
-def main(domain: str) -> dict[str, str | list[str]]:
-    logging.debug("Getting NS server details for domain: %s", domain)
-
+def get_domain_nameservers(domain: str) -> dict[str, str | list[str] | None]:
     validators.domain(domain)
 
-    dns_answers = dns.resolver.resolve(domain, 'NS')
+    try:
+        dns_answers = dns.resolver.resolve(domain, 'NS')
+    except dns.resolver.NXDOMAIN:
+        logging.error("Domain does not exist: %s", domain)
+        return {
+            'domain': domain,
+            'nameservers': None
+        }
 
     ns_fqdns = sorted({rdata.target.to_text(omit_final_dot=True) for rdata in dns_answers})
 
     logging.debug("DNS answers: %s", ns_fqdns)
 
-    output_data = {
+    return {
         'domain': domain,
         'nameservers': ns_fqdns
     }
 
-    return output_data
+
+def main(domains: list[str]) -> None:
+    logging.debug("Getting NS server details for domain: %s", domains)
+
+    output_data = [get_domain_nameservers(item) for item in domains]
+
+    json.dump(output_data, sys.stdout, indent=4, ensure_ascii=True)
 
 
 if __name__ == "__main__":
@@ -65,4 +81,12 @@ if __name__ == "__main__":
 
     logger_setup(args)
 
-    json.dump(main(args.domain), sys.stdout, indent=None)
+    domains: list[str] = []
+    if args.domain:
+        domains.append(args.domain)
+    elif args.file:
+        with open(args.file, 'r', encoding='utf-8') as file:
+            domains = [line.strip() for line in file.read().splitlines()
+                       if line.strip() or line.strip().startswith('#') is False]
+
+    main(domains)
