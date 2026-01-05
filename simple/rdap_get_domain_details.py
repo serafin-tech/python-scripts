@@ -12,6 +12,7 @@ import argparse
 import json
 import logging
 import sys
+import time
 from pprint import pformat
 from typing import Any
 
@@ -61,6 +62,7 @@ def get_rdap_data(domain: str) -> dict[str, str | list[Any]]:
 
     rdap_data = httpx.get(
         f"https://rdap.org/domain/{domain}", follow_redirects=True)
+    time.sleep(1)
 
     if rdap_data.status_code == 404:
         logging.info(
@@ -78,8 +80,11 @@ def get_rdap_data(domain: str) -> dict[str, str | list[Any]]:
     nameservers = [item.get('ldhName')
                    for item in rdap_data.json().get('nameservers', [])]
 
-    registar = [[inneritem for inneritem in item.get('vcardArray', [])[1] if inneritem[0] == 'fn'][0][3]
-                for item in rdap_data.json().get('entities', [])]
+    try:
+        registar = [[inneritem for inneritem in item.get('vcardArray', [])[1] if inneritem[0] == 'fn'][0][3]
+                    for item in rdap_data.json().get('entities', [])]
+    except (IndexError, KeyError):
+        registar = None
 
     output_data = {
         'domain': domain,
