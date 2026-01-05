@@ -73,6 +73,16 @@ def get_rdap_data(domain: str) -> dict[str, str | list[Any]]:
             'registar': None
         }
 
+    if rdap_data.status_code == 403:
+        logging.info(
+            "RDAP access forbidden for domain: %s", domain)
+        return {
+            'domain': domain,
+            'nameservers': None,
+            'registar': None
+        }
+
+
     rdap_data.raise_for_status()
 
     logging.debug("RDAP data received: %s", pformat(rdap_data.json()))
