@@ -1,8 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # pylint: disable=missing-function-docstring
 """
-RDAP information retiver for domain details
+RDAP information retiever for domain details
+
+required ubuntu packages:
+    - python3-validators
+    - python3-httpx
 """
 import argparse
 import json
@@ -13,11 +17,6 @@ from typing import Any
 
 import httpx
 import validators
-
-
-def get_file_content(file_name) -> list[str]:
-    with open(file_name, mode='r', encoding='utf-8') as file:
-        return [line.rstrip() for line in file.readlines()]
 
 
 def args_parser() -> argparse.Namespace:
@@ -33,9 +32,14 @@ def args_parser() -> argparse.Namespace:
                         default=False,
                         help='talkative mode')
 
-    parser.add_argument('domain',
-                        type=str,
-                        help='Domain name to get RDAP details for')
+    group = parser.add_mutually_exclusive_group(required=True)
+
+    group.add_argument('-d', '--domain',
+                       type=str,
+                       help='Domain name to get NS records')
+    group.add_argument('-f', '--file',
+                       type=str,
+                       help='Path to file with domains (one per line)')
 
     return parser.parse_args()
 
@@ -45,11 +49,12 @@ def logger_setup(cli_params: argparse.Namespace) -> None:
         level=(logging.DEBUG if cli_params.verbose else logging.INFO))
 
     logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)
 
     logging.debug("CLI arguments: %s", pformat(cli_params))
 
 
-def main(domain: str) -> dict[str, Any] | None:
+def get_rdap_data(domain: str) -> dict[str, str | list[Any]]:
     logging.debug("Getting RDAP details for domain: %s", domain)
 
     validators.domain(domain)
@@ -60,7 +65,11 @@ def main(domain: str) -> dict[str, Any] | None:
     if rdap_data.status_code == 404:
         logging.info(
             "Authoritative RDAP source unknown for domain: %s", domain)
-        return None
+        return {
+            'domain': domain,
+            'nameservers': None,
+            'registar': None
+        }
 
     rdap_data.raise_for_status()
 
@@ -69,14 +78,13 @@ def main(domain: str) -> dict[str, Any] | None:
     nameservers = [item.get('ldhName')
                    for item in rdap_data.json().get('nameservers', [])]
 
-    registar = [item.get('vcardArray')
-                for item in rdap_data.json().get('entities', [])
-                if 'registrar' in item.get('roles', [])]
+    registar = [[inneritem for inneritem in item.get('vcardArray', [])[1] if inneritem[0] == 'fn'][0][3]
+                for item in rdap_data.json().get('entities', [])]
 
     output_data = {
         'domain': domain,
         'nameservers': nameservers,
-        'entities': registar
+        'registar': registar
     }
 
     logging.debug("Details for %s\n%s", domain,
@@ -85,9 +93,25 @@ def main(domain: str) -> dict[str, Any] | None:
     return output_data
 
 
+def main(domains: list[str]) -> None:
+    logging.debug("Getting RDAP details for domains: %s", pformat(domains))
+
+    output_data = [get_rdap_data(item) for item in domains]
+
+    json.dump(output_data, sys.stdout, indent=4, ensure_ascii=True)
+
+
 if __name__ == "__main__":
     args = args_parser()
 
     logger_setup(args)
 
-    json.dump(main(args.domain), sys.stdout, indent=None)
+    domains: list[str] = []
+    if args.domain:
+        domains.append(args.domain)
+    elif args.file:
+        with open(args.file, 'r', encoding='utf-8') as file:
+            domains = [line.strip() for line in file.read().splitlines()
+                       if line.strip() or line.strip().startswith('#') is False]
+
+    main(domains)

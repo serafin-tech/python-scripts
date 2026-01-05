@@ -57,11 +57,21 @@ def get_domain_nameservers(domain: str) -> dict[str, str | list[str] | None]:
         dns_answers = dns.resolver.resolve(domain, 'NS')
     except (dns.resolver.NXDOMAIN,
             dns.resolver.NoNameservers,
-            dns.resolver.NoAnswer):
+            dns.resolver.NoAnswer) as err:
         logging.error("Domain does not exist: %s", domain)
+
+        if isinstance(err, dns.resolver.NoAnswer):
+            error_message = "No NS records found for domain"
+        elif isinstance(err, dns.resolver.NoNameservers):
+            error_message = "No nameservers available for domain"
+        elif isinstance(err, dns.resolver.NXDOMAIN):
+            error_message = "Domain does not exist"
+        else:
+            error_message = f"DNS error for domain {str(err)}"
+
         return {
             'domain': domain,
-            'nameservers': None
+            'nameservers': error_message
         }
 
     ns_fqdns = sorted({rdata.target.to_text(omit_final_dot=True) for rdata in dns_answers})
@@ -70,12 +80,12 @@ def get_domain_nameservers(domain: str) -> dict[str, str | list[str] | None]:
 
     return {
         'domain': domain,
-        'nameservers': ns_fqdns
+        'nameservers': str(ns_fqdns)
     }
 
 
 def main(domains: list[str]) -> None:
-    logging.debug("Getting NS server details for domain: %s", domains)
+    logging.debug("Getting NS server details for domains: %s", pformat(domains))
 
     output_data = [get_domain_nameservers(item) for item in domains]
 
