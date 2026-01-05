@@ -55,7 +55,9 @@ def get_domain_nameservers(domain: str) -> dict[str, str | list[str] | None]:
 
     try:
         dns_answers = dns.resolver.resolve(domain, 'NS')
-    except (dns.resolver.NXDOMAIN, dns.resolver.NoNameservers):
+    except (dns.resolver.NXDOMAIN,
+            dns.resolver.NoNameservers,
+            dns.resolver.NoAnswer):
         logging.error("Domain does not exist: %s", domain)
         return {
             'domain': domain,
