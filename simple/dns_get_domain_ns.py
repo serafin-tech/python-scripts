@@ -1,8 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # pylint: disable=missing-function-docstring
 """
 Read NS records for domain
+
+required ubuntu packages:
+    - python3-dnspython
+    - python3-validators
 """
 import argparse
 import json
@@ -51,7 +55,7 @@ def get_domain_nameservers(domain: str) -> dict[str, str | list[str] | None]:
 
     try:
         dns_answers = dns.resolver.resolve(domain, 'NS')
-    except dns.resolver.NXDOMAIN:
+    except (dns.resolver.NXDOMAIN, dns.resolver.NoNameservers):
         logging.error("Domain does not exist: %s", domain)
         return {
             'domain': domain,
