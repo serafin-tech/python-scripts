@@ -1,0 +1,26 @@
+# initial
+# multiline
+# comment
+key1:
+  subkey1-1: []
+  subkey1-2: {}
+
+key2:
+- item1
+- item2
+
+key3: null
+key4: "A simple string" #trailing comment
+key5: 42
+
+# another comment
+key6: 3.14
+
+key7: true
+
+key8: false
+
+key9:
+  nestedKey1:
+    - nestedItem1
+    - nestedItem2

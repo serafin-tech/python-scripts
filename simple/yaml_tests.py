@@ -53,6 +53,7 @@ import sys
 from pprint import pformat
 
 from ruamel.yaml import YAML
+from ruamel.yaml.comments import CommentedMap
 
 
 def args_parser(local_args: list[str] = None) -> argparse.Namespace:
@@ -83,7 +84,7 @@ def args_parser(local_args: list[str] = None) -> argparse.Namespace:
     return parsed_args
 
 
-def read_yaml_file(file_path: str) -> dict:
+def read_yaml_file(file_path: str) -> CommentedMap:
     yaml = YAML(typ='rt', pure=True)
     yaml.default_flow_style = False
     yaml.preserve_quotes = True
@@ -113,7 +114,22 @@ def main(input_file: str, output_file: str):
     logging.debug("Input file: %s", input_file)
     logging.debug("Output file: %s", output_file)
 
-    yaml_content = read_yaml_file(input_file)
+    yaml_content: CommentedMap = read_yaml_file(input_file)
+
+    yaml_content['key11'] = CommentedMap({
+        'subKey11-1': 'newValue11-1',
+        'subKey11-2': 'newValue11-2'
+    })
+    yaml_content.yaml_set_comment_before_after_key('key11', before='\n')
+
+    yaml_content.yaml_add_eol_comment('Inline comment for key11', 'key11')
+
+    # Add comment before a nested key
+    yaml_content.yaml_set_comment_before_after_key(
+        'key11',
+        before='Comment before subKey11-1'
+    )
+
     logging.debug("Loaded YAML content: %s", pformat(dict(yaml_content)))
 
     if not output_file:
