@@ -14,3 +14,6 @@ source "${VENV_DIR}/bin/activate"
 
 python3 -m pip install -U pip
 python3 -m pip install -e .[dev]
+
+pip list --outdated
+pip-check-updates --fail_on_update pyproject.toml
