@@ -68,7 +68,8 @@ def get_rdap_data(domain: str) -> dict[str, str | list[Any]]:
         logging.info(
             "Authoritative RDAP source unknown for domain: %s", domain)
         return get_empty_output_data(domain)
-    elif rdap_data.status_code == 403:
+
+    if rdap_data.status_code == 403:
         logging.info(
             "RDAP access forbidden for domain: %s", domain)
         return get_empty_output_data(domain)
@@ -106,10 +107,10 @@ def get_empty_output_data(domain: str) -> dict[str, str | None]:
     }
 
 
-def main(domains: list[str]) -> None:
-    logging.debug("Getting RDAP details for domains: %s", pformat(domains))
+def main(domains2check: list[str]) -> None:
+    logging.debug("Getting RDAP details for domains: %s", pformat(domains2check))
 
-    output_data = [get_rdap_data(item) for item in domains]
+    output_data = [get_rdap_data(item) for item in domains2check]
 
     json.dump(output_data, sys.stdout, indent=4, ensure_ascii=True)
 

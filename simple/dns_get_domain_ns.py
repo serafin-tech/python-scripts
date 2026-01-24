@@ -84,10 +84,10 @@ def get_domain_nameservers(domain: str) -> dict[str, str | list[str] | None]:
     }
 
 
-def main(domains: list[str]) -> None:
-    logging.debug("Getting NS server details for domains: %s", pformat(domains))
+def main(domains2check: list[str]) -> None:
+    logging.debug("Getting NS server details for domains: %s", pformat(domains2check))
 
-    output_data = [get_domain_nameservers(item) for item in domains]
+    output_data = [get_domain_nameservers(item) for item in domains2check]
 
     json.dump(output_data, sys.stdout, indent=4, ensure_ascii=True)
 
