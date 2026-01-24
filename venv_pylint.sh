@@ -1,12 +1,17 @@
 #!/bin/bash
 
-if [ ! -d venv ]
+set -eu
+
+VENV_DIR="$(dirname $0)/.venv"
+
+if [ ! -d "${VENV_DIR}" ]
 then
-    echo "MIssing venv directory, run venv_setup.sh"
+    echo "Missing venv directory, run venv_setup.sh"
     exit 1
 fi
 
-. venv/bin/activate
+# shellcheck disable=SC1091
+source "${VENV_DIR}/bin/activate"
 
+# shellcheck disable=SC2046
 pylint $(git ls-files '*.py')
-
